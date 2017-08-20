@@ -247,6 +247,10 @@
         <Setter Property="Foreground" Value="White"/>
     </Style>
 
+    <Style x:Key="LabelRed" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFE30613"/>
+    </Style>
+
     <Style x:Key="TabControl" TargetType="TabItem">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
@@ -278,5 +282,63 @@
         <Setter Property="BorderBrush" Value="White"/>
         <Setter Property="BorderThickness" Value="1,1,1,1"/>
     </Style>
+
+    <Style x:Key="TextBoxRed" TargetType="TextBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border Background="#FFE30613" 
+        x:Name="Bd" BorderBrush="White"
+        BorderThickness="1" CornerRadius="10">
+                        <ScrollViewer Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TargetName="Bd"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="Width" Value="Auto">
+                            <Setter Property="MinWidth" Value="100"/>
+                        </Trigger>
+                        <Trigger Property="Height" Value="Auto">
+                            <Setter Property="MinHeight" Value="20"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PasswordBoxRedRed" TargetType="PasswordBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border Background="#FFE30613" 
+        x:Name="Bd" BorderBrush="White"
+        BorderThickness="1" CornerRadius="10">
+                        <ScrollViewer Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TargetName="Bd"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="Width" Value="Auto">
+                            <Setter Property="MinWidth" Value="100"/>
+                        </Trigger>
+                        <Trigger Property="Height" Value="Auto">
+                            <Setter Property="MinHeight" Value="20"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 
 </ResourceDictionary>

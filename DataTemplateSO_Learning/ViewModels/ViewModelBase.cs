@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataTemplateSO_Learning
+namespace DataTemplateSO_Learning.ViewModels
 {
     class ViewModelBase
     {

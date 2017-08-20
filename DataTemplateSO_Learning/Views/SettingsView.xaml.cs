@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DataTemplateSO_Learning
+namespace DataTemplateSO_Learning.Views
 {
     /// <summary>
     /// Interaction logic for DepartmentView.xaml

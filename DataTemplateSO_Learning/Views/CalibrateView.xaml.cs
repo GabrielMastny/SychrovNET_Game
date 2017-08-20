@@ -12,21 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DataTemplateSO_Learning.ViewModels;
-using DataTemplateSO_Learning.Views;
 
 namespace DataTemplateSO_Learning.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CalibrateView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CalibrateView : UserControl
     {
-        public MainWindow()
+        public CalibrateView()
         {
             InitializeComponent();
-            this.DataContext = new NavigationViewModel();
         }
     }
-    
 }

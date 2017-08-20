@@ -6,15 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DataTemplateSO_Learning.ViewModels;
 
-namespace DataTemplateSO_Learning
+namespace DataTemplateSO_Learning.ViewModels
 {
     class NavigationViewModel : INotifyPropertyChanged
     {
 
         public ICommand SwitchToMainMenu { get; set; }
         public ICommand SwitchToSettings { get; set; }
+        public ICommand SwitchToCalibrate { get; set; }
         private List<ViewModelBase> views;
+        private ConnectionManager connectionManager;
         private object selectedViewModel;
         public object SelectedViewModel
         {
@@ -25,28 +28,42 @@ namespace DataTemplateSO_Learning
 
         public NavigationViewModel()
         {
+            connectionManager = new ConnectionManager();
             views = new List<ViewModelBase>();
-            views.Add(new MainMenuViewModel(switchToEnum.MainMenu));
-            views.Add(new SettingsViewModel(switchToEnum.Settings));
+            views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//game
+            views.Add(new CalibrateViewModel(switchToEnum.Calibration,connectionManager));//calibr
+            views.Add(new SettingsViewModel(switchToEnum.Settings, connectionManager));
+            views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//about
+            views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//mainmenu
             SwitchToMainMenu = new BaseCommand(OpenMainMenu);
             SwitchToSettings = new BaseCommand(OpenSettings);
+            SwitchToCalibrate = new BaseCommand(OpenCalibrate);
             SelectedViewModel = views[0];
         }
         
 
         private void SwitchTo(switchToEnum switchTo)
         {
+            if (selectedViewModel is SettingsViewModel)
+            {
+                connectionManager.Timer.Tick -= ((SettingsViewModel)views[2]).StationInfoRefresh;
+            }
             switch (switchTo)
             {
+                
                 case switchToEnum.Game:SelectedViewModel = views[0];
                     break;
-                case switchToEnum.Calibration: SelectedViewModel = views[0];
+                case switchToEnum.Calibration: SelectedViewModel = views[1];
                     break;
-                case switchToEnum.Settings: SelectedViewModel = views[1];
+                case switchToEnum.Settings:
+                    {
+                        connectionManager.Timer.Tick += ((SettingsViewModel)views[2]).StationInfoRefresh;
+                        SelectedViewModel = views[2];
+                    }
                     break;
-                case switchToEnum.About: SelectedViewModel = views[0];
+                case switchToEnum.About: SelectedViewModel = views[3];
                     break;
-                case switchToEnum.MainMenu: SelectedViewModel = views[0];
+                case switchToEnum.MainMenu: SelectedViewModel = views[4];
                     break;
                 default:
                     break;
@@ -56,10 +73,17 @@ namespace DataTemplateSO_Learning
         private void OpenMainMenu(object obj)
         {
             SwitchTo(switchToEnum.MainMenu);
+            
         }
         private void OpenSettings(object obj)
         {
             SwitchTo(switchToEnum.Settings);
+            
+        }
+
+        private void OpenCalibrate(object obj)
+        {
+            SwitchTo(switchToEnum.Calibration);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

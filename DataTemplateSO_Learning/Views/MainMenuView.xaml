@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="DataTemplateSO_Learning.MainMenuView"
+﻿<UserControl x:Class="DataTemplateSO_Learning.Views.MainMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="White">
+             d:DesignHeight="1080" d:DesignWidth="1980" Background="White">
     <UserControl.Resources>
         <Style x:Key="SansRegular">
             <Setter Property="TextElement.FontFamily" Value="/fonts/#OpenSans"/>
@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Stretch="Fill"
                Source="/images/logo_sychrovnet-27.png"/>
 
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="#FFE30613">
@@ -37,8 +37,8 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="1" Margin="2" Style="{StaticResource RoundCorner}" Content="     Hra     "  VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}" />
-                    <Button Grid.Row="2" Margin="2" Style="{StaticResource RoundCorner}" Content=" Kalibrace "  VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}"/>
+                    <Button Grid.Row="1" Margin="2" Style="{StaticResource RoundCorner}" Content="     Hra     "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=DataContext.SwitchToSettings, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}" />
+                    <Button Grid.Row="2" Margin="2" Style="{StaticResource RoundCorner}" Content=" Kalibrace "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=DataContext.SwitchToCalibrate, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}"/>
                     <Button Grid.Row="3" Margin="2" Style="{StaticResource RoundCorner}" Content=" Nastavení "  VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding Path=DataContext.SwitchToSettings, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" />
                     <Button Grid.Row="4" Margin="2" Style="{StaticResource RoundCorner}" Content="   O hře   "  VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Button Grid.Row="5" Margin="2" Style="{StaticResource RoundCorner}" Content="   Konec   "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding CmdExitClick}"/>
