@@ -23,8 +23,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="White" x:Name="ViewBox1">
-            <Image Source="/Images/logo_sychrovnet-27.png"/>
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="White" x:Name="ViewBox1" >
+            <Image Source="/Images/logo_sychrovnet-27.png" Stretch="Fill"/>
         </Grid>
 
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="#FFE30613">
@@ -90,9 +90,9 @@
                     </GroupBox>
                     <GroupBox Margin="10,0" TextBlock.FontSize="50" Header="AP SSID" Style="{StaticResource GroupBoxWhite}">
                             <StackPanel Orientation="Vertical">
-                                <TextBox />
-                                <TextBox/>
-                                <TextBox/>
+                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[0], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxWhite}" />
+                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[1], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}"/>
+                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[2], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}"/>
                             </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -101,9 +101,9 @@
         </Grid>
         
         <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="White">
-            <Viewbox>
+            <Viewbox Height="1080" VerticalAlignment="Bottom">
                 <StackPanel Orientation="Vertical">
-                <GroupBox Margin="10,0"  TextBlock.FontSize="50" Style="{StaticResource GroupBoxRed}" Header="Station info">
+                <GroupBox Margin="10,0" Width="600" TextBlock.FontSize="50" Style="{StaticResource GroupBoxRed}" Header="Station info">
                     <StackPanel Orientation="Vertical">
                         <GroupBox Visibility="{Binding Path=DataContext.SelectedViewModel.StationInfoVisibility[0], RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" Margin="10,15,10,10" Style="{StaticResource GroupBoxRed}" Header="Station 1">
                             <Grid>

@@ -17,7 +17,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="White" x:Name="ViewBox1">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Background="White" x:Name="ViewBox1">
             <Image
     Source="/Images/logo_sychrovnet-26.png"
     Stretch="Fill" />
@@ -36,13 +36,56 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="#FFE30613">
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Background="#FFE30613" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            
+            <Viewbox Margin="0,0,0,50" Grid.ColumnSpan="2" Grid.RowSpan="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel Orientation="Vertical" Width="150" Height="200">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox IsReadOnly="True" Margin="5" HorizontalAlignment="Left" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="25" Height="20" Style="{StaticResource TextBoxRed}"/>
+                        <Label Content="Best value" Style="{StaticResource LabelWhite}" IsManipulationEnabled="False"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Margin="5" HorizontalAlignment="Left" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="25" Height="20" Style="{StaticResource TextBoxRed}"/>
+                        <Label Content="Treshold" Style="{StaticResource LabelWhite}" IsManipulationEnabled="False"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,50">
+                        <TextBox Cursor="Arrow" IsReadOnly="True" Margin="5" HorizontalAlignment="Left" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="25" Height="20" Style="{StaticResource TextBoxRed}"/>
+                        <Label Content="Worst value" Style="{StaticResource LabelWhite}" IsManipulationEnabled="False"/>
+                    </StackPanel>
+                    <Button Content="Calibrate" Style="{StaticResource RoundCorner}"/>
+                    <Button Content="Reset Values" Style="{StaticResource RoundCorner}"/>
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" Background="White">
+            <Viewbox>
+                <StackPanel Orientation="Vertical">
+                    <GroupBox Width="200" Style="{StaticResource GroupBoxRed}" Header="Calibration Settings">
+                        <StackPanel Orientation="Vertical">
+                            <GroupBox Style="{StaticResource GroupBoxRed}" Header="Set station">
+                                <ListBox Style="{StaticResource Listbox}">
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                </ListBox>
+                            </GroupBox>
+                            <GroupBox Style="{StaticResource GroupBoxRed}" Header="Set AP">
+                                <ListBox Style="{StaticResource Listbox}">
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                    <ListBoxItem Style="{StaticResource Style2}">ss</ListBoxItem>
+                                </ListBox>
+                            </GroupBox>
+                            
+                        </StackPanel>
+                    </GroupBox>
+                    
+                </StackPanel>
+                
+            </Viewbox>
         
         </Grid>
-        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="White">
-            
-        </Grid>
-        <Button Margin="20,0" Height="40" Grid.Column="1" Grid.Row="1" Style="{StaticResource RoundCorner}" Content="back" Command="{Binding Path=DataContext.SwitchToMainMenu, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}"/>
+        <Button Margin="20,5" Height="40" Grid.Column="1" Grid.Row="4" Style="{StaticResource RoundCorner}" Content="back" Command="{Binding Path=DataContext.SwitchToMainMenu, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}"/>
 
     </Grid>
 </UserControl>

@@ -92,6 +92,12 @@ namespace DataTemplateSO_Learning.ViewModels
         }
         #region Properties
         public ICommand SetButtonClick { get; set; }
+        private ObservableCollection<Visibility> aPSsidVisibility;
+        public ObservableCollection<Visibility> APSsidVisibility
+        {
+            get { return aPSsidVisibility; }
+            set { aPSsidVisibility = value; }
+        }
         public string CurrentIp
         {
             get { return currentIp; }
@@ -157,7 +163,21 @@ namespace DataTemplateSO_Learning.ViewModels
         public double ApSliderValue
         {
             get { return apCount - 1; }
-            set { ApCount = (int)value + 1; }
+            set
+            {
+                ApCount = (int)value + 1;
+                for (int i = 0; i < stationCredentials.Count; i++)
+                {
+                    if (i <=ApSliderValue)
+                    {
+                        APSsidVisibility[i] = Visibility.Visible;
+                    }
+                    else
+                    {
+                        APSsidVisibility[i] = Visibility.Hidden;
+                    }
+                }
+            }
         }
 
         public int StationCount
@@ -199,6 +219,10 @@ namespace DataTemplateSO_Learning.ViewModels
             stationInfoVisibility.Add(Visibility.Visible);
             stationInfoVisibility.Add(Visibility.Hidden);
             stationInfoVisibility.Add(Visibility.Hidden);
+            aPSsidVisibility = new ObservableCollection<Visibility>();
+            aPSsidVisibility.Add(Visibility.Visible);
+            aPSsidVisibility.Add(Visibility.Hidden);
+            aPSsidVisibility.Add(Visibility.Hidden);
             connectManager = connectMan;
             SelectedTabIndex = 0;
             SetButtonClick = new BaseCommand(SetNewStationCredentials);
