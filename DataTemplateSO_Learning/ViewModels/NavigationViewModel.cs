@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DataTemplateSO_Learning.ViewModels;
+using DataTemplateSO_Learning.Views;
 
 namespace DataTemplateSO_Learning.ViewModels
 {
@@ -16,6 +17,11 @@ namespace DataTemplateSO_Learning.ViewModels
         public ICommand SwitchToMainMenu { get; set; }
         public ICommand SwitchToSettings { get; set; }
         public ICommand SwitchToCalibrate { get; set; }
+        public ICommand SwitchToGame { get; set; }
+        public ICommand SwitchToGameSetUp { get; set; }
+        public ICommand SwitchToOneP { get; set; }
+        public ICommand SwitchToTwoP { get; set; }
+        public ICommand SwitchToThreeP { get; set; }
         private List<ViewModelBase> views;
         private ConnectionManager connectionManager;
         private object selectedViewModel;
@@ -30,30 +36,70 @@ namespace DataTemplateSO_Learning.ViewModels
         {
             connectionManager = new ConnectionManager();
             views = new List<ViewModelBase>();
-            views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//game
+            views.Add(new GameViewModel(switchToEnum.Game));//game
             views.Add(new CalibrateViewModel(switchToEnum.Calibration,connectionManager));//calibr
             views.Add(new SettingsViewModel(switchToEnum.Settings, connectionManager));
             views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//about
             views.Add(new MainMenuViewModel(switchToEnum.MainMenu));//mainmenu
+            views.Add(new GameSetUpViewModel(switchToEnum.GameSetUp,connectionManager));
             SwitchToMainMenu = new BaseCommand(OpenMainMenu);
             SwitchToSettings = new BaseCommand(OpenSettings);
             SwitchToCalibrate = new BaseCommand(OpenCalibrate);
-            SelectedViewModel = views[0];
+            SwitchToGame = new BaseCommand(OpenGame);
+            SwitchToGameSetUp = new BaseCommand(OpenGameSetUp);
+            SwitchToOneP = new BaseCommand(OpenOneP);
+            SwitchToTwoP = new BaseCommand(OpenThreeP);
+            SelectedViewModel = views[4];
         }
-        
+
+        private void OpenOneP(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OpenThreeP(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OpenGameSetUp(object obj)
+        {
+            SwitchTo(switchToEnum.GameSetUp);
+        }
+
+        private void OpenGame(object obj)
+        {
+            
+                SwitchTo(switchToEnum.Game);
+            
+            
+        }
 
         private void SwitchTo(switchToEnum switchTo)
         {
-            if (selectedViewModel is SettingsViewModel)
-            {
+            
+                if (selectedViewModel is SettingsViewModel)
+                {
+                ((SettingsViewModel)views[2]).GenerateAPList();
+                ((SettingsViewModel)views[2]).CreateStationCollection();
                 connectionManager.Timer.Tick -= ((SettingsViewModel)views[2]).StationInfoRefresh;
-            }
+                    
+                    
+                }
+            
             switch (switchTo)
             {
                 
                 case switchToEnum.Game:SelectedViewModel = views[0];
                     break;
-                case switchToEnum.Calibration: SelectedViewModel = views[1];
+                case switchToEnum.Calibration:
+                    {
+                        SelectedViewModel = views[1];
+                        
+                        ((CalibrateViewModel)views[1]).ApIndex = ((CalibrateViewModel)SelectedViewModel).getApIndex();
+                        
+                        
+                    }
                     break;
                 case switchToEnum.Settings:
                     {
@@ -64,6 +110,14 @@ namespace DataTemplateSO_Learning.ViewModels
                 case switchToEnum.About: SelectedViewModel = views[3];
                     break;
                 case switchToEnum.MainMenu: SelectedViewModel = views[4];
+                    break;
+                case switchToEnum.GameSetUp:
+                    {
+                        SelectedViewModel = views[5];
+                        ((GameSetUpViewModel)SelectedViewModel).Tabs = ((SettingsViewModel)views[2]).StationCredentials;
+                        ((GameSetUpViewModel)SelectedViewModel).UpdateSetUp();
+                        
+                    }
                     break;
                 default:
                     break;
@@ -135,6 +189,10 @@ namespace DataTemplateSO_Learning.ViewModels
         Calibration = 1,
         Settings = 2,
         About = 3,
-        MainMenu = 4
+        MainMenu = 4,
+        GameSetUp =5,
+        OneP = 6,
+        TwoP = 7,
+        ThreeP = 8
     }
 }

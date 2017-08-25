@@ -159,8 +159,6 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="MinHeight" Value="21" />
-                <Setter Property="MinWidth" Value="104" />
                 <Setter Property="Template" Value="{StaticResource Slider}" />
             </Trigger>
         </Style.Triggers>
@@ -401,14 +399,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Listbox" TargetType="{x:Type ListBox}">
+    <Style x:Key="ListboxWhite" TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="#FFE30613"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <Border Background="White" BorderBrush="White" BorderThickness="2" CornerRadius="8">
-                        <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                    <Border Background="White" BorderBrush="#FFE30613" BorderThickness="2" CornerRadius="4">
+                        <ScrollViewer x:Name="ScrollViewer">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -417,9 +415,40 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Style2" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="ListBoxItemBasic" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#FFE30613"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="Border" Padding="7" SnapsToDevicePixels="True" CornerRadius="0,0,0,0" Background="{TemplateBinding Background}">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#FFE30613"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#878787"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxItemUp" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#FFE30613"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -429,10 +458,68 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
+                            <Setter TargetName="Border" Property="Background" Value="#FFE30613"/>
+                            <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="Green"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#878787"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxItemDown" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#FFE30613"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="Border" Padding="7" SnapsToDevicePixels="True" CornerRadius="0,0,4,4" Background="{TemplateBinding Background}">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#FFE30613"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#878787"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxItemOnly" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#FFE30613"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="Border" Padding="7" SnapsToDevicePixels="True" CornerRadius="4,4,4,4" Background="{TemplateBinding Background}">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#FFE30613"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#878787"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

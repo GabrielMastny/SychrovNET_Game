@@ -89,9 +89,14 @@ namespace DataTemplateSO_Learning.ViewModels
             OnPropertyChanged("RdStationIp");
             OnPropertyChanged("RdStationStatus");
             OnPropertyChanged("RdStationSignal");
+            
+            //CreateStationCollection();
+
         }
+
         #region Properties
         public ICommand SetButtonClick { get; set; }
+        public ICommand LostFocus { get; set; }
         private ObservableCollection<Visibility> aPSsidVisibility;
         public ObservableCollection<Visibility> APSsidVisibility
         {
@@ -127,6 +132,19 @@ namespace DataTemplateSO_Learning.ViewModels
                 OnPropertyChanged("SelectedTabIndex");
                 }
         }
+
+        private List<string> ssids;
+
+        public List<string> Ssids
+        {
+            get { return ssids; }
+            set
+            {
+                ssids = value;
+            }
+        }
+
+        
 
         public ObservableCollection<Visibility> StationInfoVisibility
         {
@@ -183,13 +201,68 @@ namespace DataTemplateSO_Learning.ViewModels
         public int StationCount
         {
             get { return stationCount; }
-            set { stationCount = value; OnPropertyChanged("StationCount"); }
+            set
+            {
+                stationCount = value;
+                OnPropertyChanged("StationCount");
+                
+            }
+        }
+
+        public void CreateStationCollection()
+        {
+            ObservableCollection<ListBoxItem> tmp = new ObservableCollection<ListBoxItem>();
+            int Connections = 0;
+            foreach (var item in connectManager.StationInfoCollection)
+            {
+                if (item.status == "Connected")
+                {
+                    Connections++;
+                }
+            }
+
+            for (int i = 0; i < stationCount; i++)
+            {
+
+                
+                if (connectManager.StationInfoCollection[i].status == "Connected")
+                {
+
+
+                    if (Connections > 1 && i == 0)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemUp") as Style, Content = connectManager.StationInfoCollection[i] });
+                    }
+                    else if (Connections > 1 && i == Connections-1)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemDown") as Style, Content = connectManager.StationInfoCollection[i] });
+                    }
+                    else if (stationCount == 1)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemOnly") as Style, Content = connectManager.StationInfoCollection[i] });
+                    }
+                    else
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemBasic") as Style, Content = connectManager.StationInfoCollection[i] });
+                    }
+
+                    
+                }
+
+
+            }
+            connectManager.StationsCollection = tmp;
         }
 
         public int ApCount
         {
             get { return apCount; }
-            set { apCount = value; OnPropertyChanged("ApCount"); }
+            set
+            {
+                apCount = value;
+                OnPropertyChanged("ApCount");
+                LostFocusOcured(null);
+            }
         }
 
         public ObservableCollection<TabItem> StationCredentials
@@ -212,9 +285,9 @@ namespace DataTemplateSO_Learning.ViewModels
         public SettingsViewModel(switchToEnum type, ConnectionManager connectMan) : base(type)
         {
             stationCredentials = new ObservableCollection<TabItem>();
-            stationCredentials.Add(new TabItem() { TabIndex=0, Header="station1", Visibility= Visibility.Visible, Style = Application.Current.FindResource("TabControl") as Style, Content= new StationCredentialsStruct() { Ip = "192.168.1.20",Login="ubnt", Pass = "morava" } });
-            stationCredentials.Add(new TabItem() { TabIndex = 1, Header = "station2", Visibility = Visibility.Hidden, Style = Application.Current.FindResource("TabControl") as Style, Content = new StationCredentialsStruct() { Ip = "192.168.1.22",Login="ubnt", Pass = "morava" } });
-            stationCredentials.Add(new TabItem() { TabIndex = 2, Header = "station3", Visibility = Visibility.Hidden, Style = Application.Current.FindResource("TabControl") as Style, Content = new StationCredentialsStruct() { Ip = "0.0.0.0",Login="Login", Pass = "Passwd" } });
+            stationCredentials.Add(new TabItem() { TabIndex=0, Header="station1", Visibility= Visibility.Visible, Style = Application.Current.FindResource("TabControl") as Style, Content= new StationCredentialsStruct() { Ip = "192.168.88.11",Login="ubnt", Pass = "morava" } });
+            stationCredentials.Add(new TabItem() { TabIndex = 1, Header = "station2", Visibility = Visibility.Hidden, Style = Application.Current.FindResource("TabControl") as Style, Content = new StationCredentialsStruct() { Ip = "192.168.88.22",Login="ubnt", Pass = "ubnt" } });
+            stationCredentials.Add(new TabItem() { TabIndex = 2, Header = "station3", Visibility = Visibility.Hidden, Style = Application.Current.FindResource("TabControl") as Style, Content = new StationCredentialsStruct() { Ip = "10.30.4.44",Login="ubnt", Pass = "ubnt" } });
             stationInfoVisibility = new ObservableCollection<Visibility>();
             stationInfoVisibility.Add(Visibility.Visible);
             stationInfoVisibility.Add(Visibility.Hidden);
@@ -223,10 +296,99 @@ namespace DataTemplateSO_Learning.ViewModels
             aPSsidVisibility.Add(Visibility.Visible);
             aPSsidVisibility.Add(Visibility.Hidden);
             aPSsidVisibility.Add(Visibility.Hidden);
+            ssids = new List<string>();
+            ssids.Add("");
+            ssids.Add("");
+            ssids.Add("");
             connectManager = connectMan;
             SelectedTabIndex = 0;
             SetButtonClick = new BaseCommand(SetNewStationCredentials);
+            LostFocus = new BaseCommand(LostFocusOcured);
 
+
+        }
+        public ObservableCollection<TabItem> GetTabs()
+        {
+            return stationCredentials;
+        }
+
+        public void GenerateAPList()
+        {
+            ObservableCollection<ListBoxItem> tmp = new ObservableCollection<ListBoxItem>();
+            int aps = 0;
+            foreach (var item in ssids)
+            {
+                if (item != "")
+                {
+                    aps++;
+                }
+            }
+            bool isFirst = true;
+            for (int i = 0; i < apCount; i++)
+            {
+                if (ssids[i] != "")
+                {
+                    if (aps > 1 && isFirst)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemUp") as Style, Content = ssids[i] });
+                        isFirst = !isFirst;
+                    }
+                    else if (aps > 1 && i == apCount - 1)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemDown") as Style, Content = ssids[i] });
+                    }
+                    else if (aps == 1)
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemOnly") as Style, Content = ssids[i] });
+                    }
+                    else
+                    {
+                        tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemBasic") as Style, Content = ssids[i] });
+                    }
+
+                }
+                connectManager.APsSsid = tmp;
+            }
+        }
+        
+
+        private void LostFocusOcured(object obj)
+        {
+            //ObservableCollection<ListBoxItem> tmp = new ObservableCollection<ListBoxItem>();
+            //int aps = 0;
+            //foreach (var item in ssids)
+            //{
+            //    if (item != "")
+            //    {
+            //        aps++;
+            //    }
+            //}
+            //bool isFirst = true;
+            //for (int i = 0; i < apCount; i++)
+            //{
+            //    if (ssids[i] != "")
+            //    {
+            //        if (aps > 1 && isFirst)
+            //        {
+            //            tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemUp") as Style, Content = ssids[i] });
+            //            isFirst = !isFirst;
+            //        }
+            //        else if (aps > 1 && i == apCount - 1)
+            //        {
+            //            tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemDown") as Style, Content = ssids[i] });
+            //        }
+            //        else if (aps == 1)
+            //        {
+            //            tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemOnly") as Style, Content = ssids[i] });
+            //        }
+            //        else
+            //        {
+            //            tmp.Add(new ListBoxItem() { Style = Application.Current.FindResource("ListBoxItemBasic") as Style, Content = ssids[i] });
+            //        }
+
+            //    }
+            //    connectManager.APsSsid = tmp;
+            //}
 
         }
 
@@ -234,6 +396,7 @@ namespace DataTemplateSO_Learning.ViewModels
         {
             StationCredentials[selectedTabIndex].Content = new StationCredentialsStruct() { Ip = currentIp, Login = currentLogin, Pass = currentPasswd }; OnPropertyChanged("StationCredentials");
             connectManager.SetUpStation((ConnectionManager.no)selectedTabIndex, currentIp, currentLogin, currentPasswd);
+            
             
         }
 

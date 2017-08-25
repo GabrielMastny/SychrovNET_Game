@@ -37,7 +37,7 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="1" Margin="2" Style="{StaticResource RoundCorner}" Content="     Hra     "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=DataContext.SwitchToSettings, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}" />
+                    <Button Grid.Row="1" Margin="2" Style="{StaticResource RoundCorner}" Content="     Hra     "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=DataContext.SwitchToGameSetUp, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}" />
                     <Button Grid.Row="2" Margin="2" Style="{StaticResource RoundCorner}" Content=" Kalibrace "  VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding Path=DataContext.SwitchToCalibrate, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" IsEnabled="{Binding CurrentPageViewModel.IsConfigured}"/>
                     <Button Grid.Row="3" Margin="2" Style="{StaticResource RoundCorner}" Content=" Nastavení "  VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding Path=DataContext.SwitchToSettings, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}" />
                     <Button Grid.Row="4" Margin="2" Style="{StaticResource RoundCorner}" Content="   O hře   "  VerticalAlignment="Center" HorizontalAlignment="Center"/>

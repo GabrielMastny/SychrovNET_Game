@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="DataTemplateSO_Learning.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DataTemplateSO_Learning.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="130"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.RowSpan="2" Background="White">
+            
+        </Grid>
+
+        <Grid Grid.Column="2" Grid.RowSpan="2" Background="White">
+
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="5" Background="White" x:Name="ViewBox1">
+            <Image
+    Source="/Images/logo_sychrovnet-26.png"
+    Stretch="Fill" />
+            <Rectangle>
+                <Rectangle.Fill>
+
+                    <LinearGradientBrush StartPoint="0.5,1" EndPoint="1,0" >
+                        
+                     <GradientStop Color="#FFE30613" Offset="0"/>
+                        <GradientStop Color="#FFE30613" Offset="0.5"/>
+                        <GradientStop Color="Transparent" Offset="0.5"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </LinearGradientBrush>
+                    
+                </Rectangle.Fill>
+                <Rectangle.OpacityMask >
+                    <ImageBrush ImageSource="/Images/logo_sychrovnet-26.png"/>
+                </Rectangle.OpacityMask>
+
+                     </Rectangle>
+             
+        </Grid>
+        
+            
+    </Grid>
+</UserControl>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ph="clr-namespace:DataTemplateSO_Learning.test"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920" Background="White">
     <UserControl.Resources>
@@ -35,12 +36,12 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="pocet ap       " Foreground="White"/>
-                                <Slider Style="{StaticResource Horizontal_Slider}" Value="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=TwoWay, Path=DataContext.SelectedViewModel.ApSliderValue}" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="1" Margin="50,0,50,0" ValueChanged="Slider_ValueChanged" ></Slider>
+                                <Slider Width="50" Style="{StaticResource Horizontal_Slider}" Value="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=TwoWay, Path=DataContext.SelectedViewModel.ApSliderValue}" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="1" Margin="50,0,50,0" ValueChanged="Slider_ValueChanged" ></Slider>
                                 <Label Content="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=Default, Path=DataContext.SelectedViewModel.ApCount}" Foreground="White"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="pocet station" Foreground="White"/>
-                                <Slider Style="{StaticResource Horizontal_Slider}" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="1" Value="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=TwoWay, Path=DataContext.SelectedViewModel.StationSliderValue}" Margin="50,0,50,0"></Slider>
+                                <Slider Width="50" Style="{StaticResource Horizontal_Slider}" VerticalAlignment="Center" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="1" Value="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=TwoWay, Path=DataContext.SelectedViewModel.StationSliderValue}" Margin="50,0,50,0"></Slider>
                                 <Label Content="{Binding RelativeSource={RelativeSource AncestorType=Window},Mode=Default, Path=DataContext.SelectedViewModel.StationCount}" Foreground="White"/>
                             </StackPanel>
                         </StackPanel>
@@ -90,9 +91,27 @@
                     </GroupBox>
                     <GroupBox Margin="10,0" TextBlock.FontSize="50" Header="AP SSID" Style="{StaticResource GroupBoxWhite}">
                             <StackPanel Orientation="Vertical">
-                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[0], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxWhite}" />
-                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[1], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}"/>
-                                <TextBox Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[2], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}"/>
+                                <TextBox Text="{Binding Path=DataContext.SelectedViewModel.Ssids[0], RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[0], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="5" Style="{StaticResource TextBoxWhite}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectedViewModel.LostFocus, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBox Text="{Binding Path=DataContext.SelectedViewModel.Ssids[1], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default, UpdateSourceTrigger=LostFocus}" Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[1], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectedViewModel.LostFocus, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBox Text="{Binding Path=DataContext.SelectedViewModel.Ssids[2], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default, UpdateSourceTrigger=LostFocus}" Visibility="{Binding Path=DataContext.SelectedViewModel.APSsidVisibility[2], RelativeSource={RelativeSource AncestorType=Window}, Mode=Default}" Margin="0,2" Style="{StaticResource TextBoxRed}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectedViewModel.LostFocus, RelativeSource={RelativeSource AncestorType=Window},Mode=Default}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </StackPanel>
                     </GroupBox>
                 </StackPanel>

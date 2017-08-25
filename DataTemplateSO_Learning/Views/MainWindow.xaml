@@ -14,6 +14,12 @@
         <DataTemplate DataType="{x:Type VM:CalibrateViewModel}">
             <local:CalibrateView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type VM:GameViewModel}">
+            <local:GameView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type VM:GameSetUpViewModel}">
+            <local:GameSetUpView/>
+        </DataTemplate>
     </Window.Resources>
     <ContentControl x:Name="Pages" Content="{Binding SelectedViewModel}"/>
     

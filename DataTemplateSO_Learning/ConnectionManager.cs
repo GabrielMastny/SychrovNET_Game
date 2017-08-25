@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace DataTemplateSO_Learning
 {
@@ -15,14 +17,10 @@ namespace DataTemplateSO_Learning
     {
         public ConnectionManager()
         {
-            sshClients = new List<SshClient>();
-            sshClients.Add(new SshClient("s", "s", "s"));
-            sshClients.Add(new SshClient("s", "s", "s"));
-            sshClients.Add(new SshClient("s", "s", "s"));
             stationInfoCollection = new ObservableCollection<StationInfo>();
-            stationInfoCollection.Add(new StationInfo() { ip = "0.0.0.0", signal = "N/A", status = "Not set" });
-            stationInfoCollection.Add(new StationInfo() { ip = "0.0.0.0", signal = "N/A", status = "Not set" });
-            stationInfoCollection.Add(new StationInfo() { ip = "0.0.0.0", signal = "N/A", status = "Not set" });
+            stationInfoCollection.Add(new StationInfo() { Id=0, Name = "Station 1", SshCli = new SshClient("s", "s", "s"), ip = "0.0.0.0", signal = "N/A", status = "Not set" });
+            stationInfoCollection.Add(new StationInfo() { Id=1, Name = "Station 2", SshCli = new SshClient("s", "s", "s"), ip = "0.0.0.0", signal = "N/A", status = "Not set" });
+            stationInfoCollection.Add(new StationInfo() { Id=2, Name = "Station 3", SshCli = new SshClient("s", "s", "s"), ip = "0.0.0.0", signal = "N/A", status = "Not set" });
 
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
@@ -32,10 +30,11 @@ namespace DataTemplateSO_Learning
 
         private void StationInfoUpdate(object sender, EventArgs e)
         {
-            for (int i = 0; i < sshClients.Count; i++)
+            for (int i = 0; i < stationInfoCollection.Count; i++)
             {
-                if (sshClients[i].IsConnected)
+                if (stationInfoCollection[i].SshCli.IsConnected)
                 {
+                    stationInfoCollection[i].CurrentAp = GetSsid((no)i);
                     stationInfoCollection[i].signal = GetSignal((no)i);
                     stationInfoCollection[i].status = "Connected";
                 }
@@ -47,7 +46,7 @@ namespace DataTemplateSO_Learning
                 {
                     stationInfoCollection[i].status = "Disconnected";
                 }
-                
+
             }
         }
 
@@ -59,20 +58,53 @@ namespace DataTemplateSO_Learning
         }
 
         public DispatcherTimer Timer;
-        private List<SshClient> sshClients;
         private ObservableCollection<StationInfo> stationInfoCollection;
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+        private ObservableCollection<ListBoxItem> aPsSsid;
+
+        public ObservableCollection<ListBoxItem> APsSsid
+        {
+            get { return aPsSsid; }
+            set
+            {
+                aPsSsid = value;
+            }
+        }
+        private ObservableCollection<ListBoxItem> stationsCollection;
+        public ObservableCollection<ListBoxItem> StationsCollection
+        {
+            get { return stationsCollection; }
+            set
+            {
+                stationsCollection = value;
+            }
+        }
+
+        
 
         public void SetUpStation(no number, string ip, string login, string pass)
         {
-            if (sshClients[(int)number].IsConnected)
+            if (stationInfoCollection[(int)number].SshCli.IsConnected)
             {
-                sshClients[(int)number].Disconnect();
+                stationInfoCollection[(int)number].SshCli.Disconnect();
             }
             stationInfoCollection[(int)number].ip = ip;
-            sshClients[(int)number] = new SshClient(ip, login, pass);
-            sshClients[(int)number].Connect();
+            stationInfoCollection[(int)number].SshCli = new SshClient(ip, login, pass);
+            try
+            {
+                stationInfoCollection[(int)number].SshCli.Connect();
+            }
+            catch (Exception)
+            {
+
+                
+            }
+                
+            
+            
         }
 
         public ObservableCollection<StationInfo> StationInfoCollection
@@ -86,7 +118,7 @@ namespace DataTemplateSO_Learning
             ObservableCollection<string> toReturn = new ObservableCollection<string>();
             for (int i = 0; i < stationInfoCollection.Count; i++)
             {
-                if (sshClients[i].IsConnected)
+                if (stationInfoCollection[i].SshCli.IsConnected)
                 {
                     if (type == StationInfoType.signal)
                     {
@@ -111,16 +143,35 @@ namespace DataTemplateSO_Learning
 
         }
 
-        private string GetSignal(no number)
+        public string GetSignal(no number)
         {
             SshCommand command;
             string[] _results;
-                command =  sshClients[(int)number].RunCommand("iwconfig |grep Signal");
+                command =  stationInfoCollection[(int)number].SshCli.RunCommand("iwconfig |grep Signal");
                 _results = command.Result.Split(' ');
                 _results = _results[14].Split('-');
-                //test = int.Parse(results[1]);
+            //test = int.Parse(results[1]);
                 return _results[1];
             
+        }
+
+        public string GetSsid(no number)
+        {
+            SshCommand command;
+            string[] _results;
+            command = stationInfoCollection[(int)number].SshCli.RunCommand("iwconfig ath0 |grep ESSID");
+            _results = command.Result.Split('"');
+            return _results[1];
+        }
+
+        public void SetNewSsid(no number,string ssid)
+        {
+            SshCommand command;
+            command = stationInfoCollection[(int)number].SshCli.RunCommand($"sed -i 's/wireless.1.ssid={GetSsid(number)}/wireless.1.ssid={ssid}/' /tmp/system.cfg ");
+            
+            command = stationInfoCollection[(int)number].SshCli.RunCommand($"sed -i 's/wpasupplicant.profile.1.network.1.ssid={GetSsid(number)}/wpasupplicant.profile.1.network.1.ssid={ssid}/' /tmp/system.cfg");
+            command = stationInfoCollection[(int)number].SshCli.RunCommand("cfgmtd -f /tmp/system.cfg -w");
+            command = stationInfoCollection[(int)number].SshCli.RunCommand("/usr/etc/rc.d/rc.softrestart save");
         }
 
 
@@ -147,9 +198,27 @@ namespace DataTemplateSO_Learning
 
     public class StationInfo
     {
+        public int Id;
+        public string Name;
+        public SshClient SshCli;
         public string ip;
         public string status;
         public string signal;
+        public List<SignalQuality> BestTreshWorst;
+        public string CurrentAp;
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
+    public class SignalQuality
+    {
+        public string Ap;
+        public string BestValue;
+        public string Treshold;
+        public string WorstValue;
     }
 
     

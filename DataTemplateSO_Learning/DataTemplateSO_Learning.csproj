@@ -34,13 +34,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Blend.Interactivity.Wpf.1.0.1340.0\lib\net\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.0.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,7 +67,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\2GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\3GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CalibrateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameSetUpView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -81,10 +105,25 @@
     </Compile>
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="passwordHack.cs" />
+    <Compile Include="TextBoxBehavior.cs" />
     <Compile Include="ViewModels\CalibrateViewModel.cs" />
+    <Compile Include="ViewModels\GameSetUpViewModel.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\2GameView.xaml.cs">
+      <DependentUpon>2GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\3GameView.xaml.cs">
+      <DependentUpon>3GameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CalibrateView.xaml.cs">
       <DependentUpon>CalibrateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameSetUpView.xaml.cs">
+      <DependentUpon>GameSetUpView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -137,6 +176,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logo_sychrovnet-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_sychrovnet-26-90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_sychrovnet-26-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_sychrovnet-26-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_sychrovnet-26-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo_sychrovnet-26-20.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
